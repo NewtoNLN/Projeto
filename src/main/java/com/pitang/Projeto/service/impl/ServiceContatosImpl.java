@@ -36,31 +36,33 @@ public class ServiceContatosImpl implements ServiceContatos {
 		if(!contact.isPresent()) {
 			throw new ExceptionBadRequest("Usuário não encontrado");
 		}
-		
 		return contact.get();
 	}
 
-	@Override
-	public void deleteContact(Long id) {
-		Optional<ModelContatos> contact = repositoryContatos.findById(id);
-		if(contact == null) {
-			throw new ExceptionBadRequest("Id inválido, não foi possivel excluir o usuário");
-		}
-	}
+	
 
 	@Override
 	public ModelContatos addContact(ModelContatos contact) {
 		checkContact(contact);
-		validadeContact(contact);
-		getRelations(contact);
+		validateContact(contact);
 		return repositoryContatos.save(contact);
 		
 	}
 
 	@Override
-	public List<ModelContatos> userContacts(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ModelContatos> userContacts(Long userSender) {
+		ModelUsuario userList = repositoryUsuario.findById(userSender).get();
+		if (userList == null) {
+			throw new ExceptionBadRequest("Usuário não encontrado");
+		}
+		
+		return repositoryContatos.findUserListById(userSender);
+	}
+	
+	@Override
+	public ModelUsuario findUserByContact(Long id) {
+		Optional<ModelUsuario> user = repositoryUsuario.findById(id);
+		return user.get();
 	}
 	private void checkContact(ModelContatos contact) {
 		if (contact == null) {
@@ -77,73 +79,30 @@ public class ServiceContatosImpl implements ServiceContatos {
 			throw new ExceptionBadRequest("O id do contato está vazio.");
 		}
 	}
-	
-	private void validateContact(ModelContatos contact) {
-		Optional<ModelUsuario> usercontactDB = repositoryUsuario.findById(contact.getId());
-		ModelContatos contactDB = repositoryContatos.findContactBySenderAndReciever(contact.getUserSender(), contact.getUserReciever());
-		
-		if(!usercontactDB.isPresent()) {
-			throw new ExceptionBadRequest("Id inválido ou contato inexistente");
-		}
-		if(contactDB != null) {
-			throw new ExceptionBadRequest("Id inválido ou contato inexistente");
-		}
-	}
-	private void getRelations(ModelContatos modelContatos) {
-		
-	}
-	
-	/*
-	
-	@Autowired
-	//private ServiceMensagemImpl serviceMensagemImpl;
-	
 	@Override
-	public List<ModelContatos> listcontact(){
-		return repositoryContatos.findAll();
-	}
-	
-	@Override
-	public ModelContatos addContact(ModelContatos contact) {
-		checkContact(contact);
-		validateContact(contact);
-		return repositoryContatos.save(contact);
-	}
-	
-	@Override
-	public ModelUsuario findUserByContact(Long id) {
-		Optional<ModelUsuario> user = repositoryUsuario.findById(id);
-		return user.get();
-	}
-	
-	@Override
-	public List<ModelContatos> userContacts(Long id){
-		ModelUsuario userValido = repositoryUsuario.findById(id).get();
-		if(userValido == null) {
-			throw new ExceptionBadRequest("Usuário não encontrado");
-		}
-		
-		return repositoryContatos.findContactByUserId(id);
-	}
-	
-	@Override
-	public String deleteContact(Long id) {
+	public void deleteContact(Long id) {
 		if (id == null || id == 0 ) {
 			throw new ExceptionBadRequest("Id inválido");
 		}
 		
-		ModelContatos contactDB = repositoryContatos.findContactByUserAndContact(userSender, userReciever);
+		Optional<ModelContatos> contactDB = repositoryContatos.findById(id);
 		if (contactDB == null) {
 			throw new ExceptionBadRequest("Contato não encontrado");
 		}
-		repositoryContatos.deleteById(contactDB.getId());
+	}
+	
+	
+	private void validateContact(ModelContatos contact) {
+		Optional<ModelUsuario> usercontactDB = repositoryUsuario.findById(contact.getId());
 		
-		return "contato deletado com sucesso" ;
+		
+		if(!usercontactDB.isPresent()) {
+			throw new ExceptionBadRequest("Id inválido ou contato inexistente");
+		}
+		
 	}
 	
 	
 	
-	
-	*/
 	
 }

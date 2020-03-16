@@ -62,7 +62,7 @@ public class ModelMapperComponent {
 			map().setId(source.getId());
 			map().setContactName(source.getContactName());
 			map().setUserSender(source.getUserSender().getId());
-			map().setUserReciever(source.getUserReciever().getId());
+			map().setUserReciever(source.getUserReciever());
 				
 			}
 		}
@@ -74,17 +74,28 @@ public class ModelMapperComponent {
 				protected void configure() {
 					map().setId(source.getId());
 					map().setContactName(source.getContactName());
-					map().getUserReciever().setId(source.getUserReciever());
+					map().setUserReciever(source.getUserReciever());
 					map().getUserSender().setId(source.getUserSender());
+					skip().getUserSender().setCompleteName(null);
+					skip().getUserSender().setEmail(null);
+					skip().getUserSender().setPassword(null);
+					skip().getUserSender().setUserName(null);
 					
 				}		
 			}	);
-	/*
+	
 	modelMapper.addMappings(
 			new PropertyMap<DtoMensagem, ModelMensagem>() {
 				@Override
 				protected void configure() {
 					map().setMessage(source.getMessage());
+					map().getUserSender().setId(source.getUserSender());
+					map().setUserReciever(source.getUserReciever());
+					skip().getUserSender().setCompleteName(null);
+					skip().getUserSender().setEmail(null);
+					skip().getUserSender().setPassword(null);
+					skip().getUserSender().setUserName(null);
+					
 				}
 	});
 	
@@ -93,14 +104,14 @@ public class ModelMapperComponent {
 				@Override
 				protected void configure() {
 					map().setId(source.getId());
-					map().setMessage(source.getMessage);
-					map().setUserSender(source.getUserSender());
+					map().setMessage(source.getMessage());
+					map().setUserSender(source.getUserSender().getId());
 					map().setUserReciever(source.getUserReciever());
 				}
 			}
 			);
 	
-	*/
+	
 	}
 	
 

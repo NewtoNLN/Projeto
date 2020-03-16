@@ -9,8 +9,8 @@ public class DtoMensagem {
 	
 	private Long id;
 	private String message;
-	private DtoUsuario userSender;
-	private DtoUsuario userReciever;
+	private Long userSender;
+	private Long userReciever;
 	
 	
 	public Long getId() {
@@ -25,17 +25,18 @@ public class DtoMensagem {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public DtoUsuario getUserSender() {
+	public Long getUserSender() {
 		return userSender;
 	}
-	public void setUserSender(DtoUsuario userSender) {
+	public void setUserSender(Long userSender) {
 		this.userSender = userSender;
 	}
-	public DtoUsuario getUserReciever() {
+	public Long getUserReciever() {
 		return userReciever;
 	}
-	public void setUserReciever(DtoUsuario userReciever) {
+	public void setUserReciever(Long userReciever) {
 		this.userReciever = userReciever;
-	}	
+	}
+	
 	
 }

@@ -16,7 +16,7 @@ import com.pitang.Projeto.mapper.ModelMapperComponent;
 import com.pitang.Projeto.service.ServiceContatos;
 
 public class ControllerContatos {
-	/*
+	
 	private ServiceContatos serviceContatos;
 	
 	public ControllerContatos (ServiceContatos serviceContatos) {
@@ -44,7 +44,8 @@ public class ControllerContatos {
 	if(modelContatos.size() == 0) {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	List<DtoContatos> dtoContact = ModelMapperComponent.modelMapper.map(modelContatos, new TypeToken<List<DtoContatos>>() {}.getType());
+	List<DtoContatos> dtoContatos = ModelMapperComponent.modelMapper.map(modelContatos, new TypeToken<List<DtoContatos>>() {}.getType());
+	return new ResponseEntity<>(dtoContatos, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/user/{id}/contact/{idcontact}", method = RequestMethod.DELETE)
 	@ResponseBody
@@ -52,8 +53,9 @@ public class ControllerContatos {
 		if((iduser == null) || (idcontato == null)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		serviceContatos.deleteContact(idcontato);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
-	*/
+	
 }
 

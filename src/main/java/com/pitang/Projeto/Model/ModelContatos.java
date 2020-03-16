@@ -30,10 +30,15 @@ public class ModelContatos {
 	@JoinColumn(name = "user_sender", nullable = false)
 	private ModelUsuario userSender;
 	
+	@NotNull
+	@Column(name = "user_reciever")
+	private Long userReciever;
+	
+	/*
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_reciever", nullable = false)
 	private ModelUsuario userReciever;
-	
+	*/
 	public ModelContatos() {
 	
 	}
@@ -51,7 +56,15 @@ public class ModelContatos {
 	public void setUserSender(ModelUsuario userSender) {
 		this.userSender = userSender;
 	}
-
+	
+	
+	public Long getUserReciever() {
+		return userReciever;
+	}
+	public void setUserReciever(Long userReciever) {
+		this.userReciever = userReciever;
+	}
+	/*
 	public ModelUsuario getUserReciever() {
 		return userReciever;
 	}
@@ -59,7 +72,7 @@ public class ModelContatos {
 	public void setUserReciever(ModelUsuario userReciever) {
 		this.userReciever = userReciever;
 	}
-
+	*/
 	public String getContactName() {
 		return contactName;
 	}

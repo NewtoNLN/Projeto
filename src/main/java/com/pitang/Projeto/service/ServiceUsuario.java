@@ -3,7 +3,6 @@ package com.pitang.Projeto.service;
 import java.util.List;
 
 import com.pitang.Projeto.Model.ModelUsuario;
-import com.pitang.Projeto.dto.DtoUsuario;
 
 public interface ServiceUsuario {
 	

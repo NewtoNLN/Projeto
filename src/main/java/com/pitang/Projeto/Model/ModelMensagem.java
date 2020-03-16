@@ -32,7 +32,6 @@ public class ModelMensagem {
 	private ModelUsuario userSender;
 	
 	@NotNull 
-	@Size(max = 100)
 	@Column(name = "userReciever")
 	private Long userReciever;
 	

@@ -13,7 +13,7 @@ public interface RepositoryMensagem extends JpaRepository<ModelMensagem, Long> {
 	
 	Optional<ModelMensagem> findById(Long id);
 	
-	Optional<ModelMensagem> findByUserSenderAndUserReciever(Long userSender, Long userReciever);
+	//Optional<ModelMensagem> findByUserSenderAndUserReciever(Long userSender, Long userReciever);
 	
 	
 	

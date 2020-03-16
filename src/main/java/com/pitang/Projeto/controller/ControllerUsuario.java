@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pitang.Projeto.Exceptions.ExceptionBadRequest;
+import com.pitang.Projeto.Model.ModelContatos;
 import com.pitang.Projeto.Model.ModelUsuario;
+import com.pitang.Projeto.dto.DtoContatos;
 import com.pitang.Projeto.dto.DtoUsuario;
 import com.pitang.Projeto.mapper.ModelMapperComponent;
+import com.pitang.Projeto.service.ServiceContatos;
 //import com.pitang.Projeto.service.ServiceContatos;
 import com.pitang.Projeto.service.ServiceUsuario;
 
@@ -23,7 +26,7 @@ import com.pitang.Projeto.service.ServiceUsuario;
 @RestController
 public class ControllerUsuario {
 		private ServiceUsuario serviceUsuario;
-		//private ServiceContatos serviceContatos;
+		private ServiceContatos serviceContatos;
 		
 		public ControllerUsuario(ServiceUsuario serviceUsuario) {
 			super();
@@ -93,25 +96,22 @@ public class ControllerUsuario {
 			serviceUsuario.deleteUser(id);
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
-		/*
+		
 		@RequestMapping(value = "/{id}/contact", method  =RequestMethod.POST)
 		@ResponseBody
 		public ResponseEntity<DtoContatos> cadastrarContato(@PathVariable("id") Long id, @RequestBody DtoContatos dtoContatos) {
-		ModelUsuario user = serviceContatos.findUserByContact(id);
+		//ModelUsuario user = serviceContatos.findUserByContact(id);
+		ModelContatos contact = ModelMapperComponent.modelMapper.map(dtoContatos, new TypeToken<ModelContatos>() {}.getType());
+		ModelMapperComponent.modelMapper.validate();
+		//contact.setUserSender(user);
 		
-		ModelContatos modelContatos = ModelMapperComponent.modelMapper.map(dtoContatos, new TypeToken<ModelContatos>() {}.getType());
-		
-		modelContatos.setUserSender(user);
-		
-		modelContatos = serviceContatos.addContact(modelContatos);
-		
-		if(modelContatos == null) {
+		contact = serviceContatos.addContact(contact);
+		if(contact == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		dtoContatos = ModelMapperComponent.modelMapper.map(modelContatos, new TypeToken<DtoContatos>() {}.getType());
-			
-		return new ResponseEntity<>(dtoContatos, HttpStatus.OK);
+		dtoContatos = ModelMapperComponent.modelMapper.map(contact, new TypeToken<DtoContatos>() {}.getType());
+		ModelMapperComponent.modelMapper.validate();	
+		return new ResponseEntity<>(dtoContatos, HttpStatus.CREATED);
 		}
-		*/
+		
 }

@@ -1,12 +1,13 @@
 
 package com.pitang.Projeto.service.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.pitang.Projeto.Exceptions.ExceptionBadRequest;
+import com.pitang.Projeto.Model.ModelContatos;
 import com.pitang.Projeto.Model.ModelMensagem;
 import com.pitang.Projeto.repository.RepositoryMensagem;
 import com.pitang.Projeto.service.ServiceMensagem;
@@ -21,15 +22,13 @@ public class ServiceMensagemImpl implements ServiceMensagem {
 
 	@Override
 	public List<ModelMensagem> listAllMessage() {
-		// TODO Auto-generated method stub
-		return null;
+		if(repositoryMensagem.findAll().size()==0) {
+			return null;
+		}
+		return repositoryMensagem.findAll();
 	}
 
-	@Override
-	public List<ModelMensagem> findAllMessageId(Long idSender) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<ModelMensagem> findallMessageContact(Long idSender, Long idReciever) {
@@ -44,16 +43,31 @@ public class ServiceMensagemImpl implements ServiceMensagem {
 	}
 
 	@Override
-	public ModelMensagem sendMessage(ModelMensagem modelMensagem) {
-		// TODO Auto-generated method stub
-		return null;
+	public ModelMensagem sendMessage(ModelMensagem message) {
+		return repositoryMensagem.save(message);
 	}
 
 	@Override
-	public ModelMensagem deleteMessage(ModelMensagem modelMensagem) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteMessage(Long id) {
+		if (id == null || id == 0 ) {
+			throw new ExceptionBadRequest("Id inválido");
+		}
+		
+		Optional<ModelMensagem> message = repositoryMensagem.findById(id);
+		if (message == null) {
+			throw new ExceptionBadRequest("Mensagem não encontrada");
+		}
 	}
+	
+	@Override
+	public ModelMensagem findMessageById(Long id) {
+		Optional<ModelMensagem> message = repositoryMensagem.findById(id);
+		if(!message.isPresent()) {
+			throw new ExceptionBadRequest("Usuário não encontrado");
+		}
+		return message.get();
+	}
+
 	
 	
 

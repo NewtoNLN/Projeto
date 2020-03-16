@@ -9,15 +9,17 @@ public interface ServiceMensagem {
 	
 	public List<ModelMensagem> listAllMessage();
 	
-	public List<ModelMensagem> findAllMessageId(Long idSender);
+	//public List<ModelMensagem> findAllMessageId(Long idSender);
 	
 	public List<ModelMensagem> findallMessageContact(Long idSender, Long idReciever);
 	
 	public ModelMensagem findMessageContact(Long id);
 	
-	public ModelMensagem sendMessage(ModelMensagem modelMensagem);
+	public ModelMensagem sendMessage(ModelMensagem message);
 	
-	public ModelMensagem deleteMessage(ModelMensagem modelMensagem);
+	public void deleteMessage(Long id);
+	
+	public ModelMensagem findMessageById(Long id);
 	
 	
 }

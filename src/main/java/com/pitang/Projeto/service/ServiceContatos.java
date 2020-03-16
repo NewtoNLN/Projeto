@@ -14,8 +14,10 @@ public interface ServiceContatos {
 	
 	public void deleteContact(Long id);
 	
-	public ModelContatos addContact (ModelContatos id);
+	public ModelContatos addContact(ModelContatos contact);
 	
-	public List<ModelContatos> userContacts(Long id);
+	public List<ModelContatos> userContacts(Long userSender);
+	
+	public ModelUsuario findUserByContact(Long id);
 
 }
