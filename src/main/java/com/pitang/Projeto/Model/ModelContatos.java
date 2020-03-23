@@ -8,10 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "contact")
@@ -26,7 +28,9 @@ public class ModelContatos {
 	@Column(name = "contact_name")
 	private String contactName;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_sender", nullable = false)
 	private ModelUsuario userSender;
 	
@@ -34,11 +38,7 @@ public class ModelContatos {
 	@Column(name = "user_reciever")
 	private Long userReciever;
 	
-	/*
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_reciever", nullable = false)
-	private ModelUsuario userReciever;
-	*/
+	
 	public ModelContatos() {
 	
 	}

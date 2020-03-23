@@ -75,12 +75,7 @@ public class ModelMapperComponent {
 					map().setId(source.getId());
 					map().setContactName(source.getContactName());
 					map().setUserReciever(source.getUserReciever());
-					map().getUserSender().setId(source.getUserSender());
-					skip().getUserSender().setCompleteName(null);
-					skip().getUserSender().setEmail(null);
-					skip().getUserSender().setPassword(null);
-					skip().getUserSender().setUserName(null);
-					
+					skip().setUserSender(null);	
 				}		
 			}	);
 	

@@ -8,16 +8,18 @@ import com.pitang.Projeto.Model.ModelUsuario;
 
 public interface ServiceContatos {
 	
-	public List<ModelContatos> listcontact();
+	public List<ModelContatos> listContact();
 	
-	public ModelContatos findContactById(Long id);
+	public ModelUsuario findContactById(Long id);
 	
 	public void deleteContact(Long id);
 	
 	public ModelContatos addContact(ModelContatos contact);
 	
-	public List<ModelContatos> userContacts(Long userSender);
+	public List<ModelContatos> userContacts(Long id);
 	
 	public ModelUsuario findUserByContact(Long id);
+	
+	public ModelContatos updateContact(ModelContatos contact);
 
 }

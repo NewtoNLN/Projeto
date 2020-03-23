@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.pitang.Projeto.Exceptions.ExceptionBadRequest;
@@ -14,6 +15,7 @@ import com.pitang.Projeto.repository.RepositoryContatos;
 import com.pitang.Projeto.repository.RepositoryUsuario;
 import com.pitang.Projeto.service.ServiceContatos;
 
+@Service
 public class ServiceContatosImpl implements ServiceContatos {
 
 	@Autowired
@@ -23,20 +25,14 @@ public class ServiceContatosImpl implements ServiceContatos {
 	private RepositoryUsuario repositoryUsuario;
 	
 	@Override
-	public List<ModelContatos> listcontact() {
-		if(repositoryContatos.findAll().size() == 0) {
-			return null;
-		}
+	public List<ModelContatos> listContact() {
 		return repositoryContatos.findAll();
 	}
 
 	@Override
-	public ModelContatos findContactById(Long id) {
-		Optional<ModelContatos> contact = repositoryContatos.findById(id);
-		if(!contact.isPresent()) {
-			throw new ExceptionBadRequest("Usuário não encontrado");
-		}
-		return contact.get();
+	public ModelUsuario findContactById(Long id) {
+		Optional<ModelUsuario> user = repositoryUsuario.findById(id);
+		return user.get();
 	}
 
 	
@@ -44,19 +40,19 @@ public class ServiceContatosImpl implements ServiceContatos {
 	@Override
 	public ModelContatos addContact(ModelContatos contact) {
 		checkContact(contact);
-		validateContact(contact);
+		//validateContact(contact);
 		return repositoryContatos.save(contact);
 		
 	}
 
 	@Override
-	public List<ModelContatos> userContacts(Long userSender) {
-		ModelUsuario userList = repositoryUsuario.findById(userSender).get();
-		if (userList == null) {
+	public List<ModelContatos> userContacts(Long id) {
+		ModelUsuario validadeUser = repositoryUsuario.findById(id).get();
+		if (validadeUser == null) {
 			throw new ExceptionBadRequest("Usuário não encontrado");
 		}
 		
-		return repositoryContatos.findUserListById(userSender);
+		return repositoryContatos.findByUserSenderId(id);
 	}
 	
 	@Override
@@ -81,17 +77,20 @@ public class ServiceContatosImpl implements ServiceContatos {
 	}
 	@Override
 	public void deleteContact(Long id) {
-		if (id == null || id == 0 ) {
-			throw new ExceptionBadRequest("Id inválido");
+		Optional<ModelContatos> contact = repositoryContatos.findById(id);
+		if (contact == null) {
+			throw new ExceptionBadRequest("Id inválido, não foi possivel excluir usuário.");
 		}
-		
-		Optional<ModelContatos> contactDB = repositoryContatos.findById(id);
-		if (contactDB == null) {
-			throw new ExceptionBadRequest("Contato não encontrado");
-		}
+		repositoryContatos.deleteById(id);
 	}
 	
+	@Override
+	public ModelContatos updateContact(ModelContatos contact) {
+		checkContact(contact);
+		return repositoryContatos.save(contact);
+	}
 	
+	/*
 	private void validateContact(ModelContatos contact) {
 		Optional<ModelUsuario> usercontactDB = repositoryUsuario.findById(contact.getId());
 		
@@ -101,7 +100,7 @@ public class ServiceContatosImpl implements ServiceContatos {
 		}
 		
 	}
-	
+	*/
 	
 	
 	

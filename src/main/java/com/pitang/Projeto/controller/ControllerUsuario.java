@@ -19,7 +19,6 @@ import com.pitang.Projeto.dto.DtoContatos;
 import com.pitang.Projeto.dto.DtoUsuario;
 import com.pitang.Projeto.mapper.ModelMapperComponent;
 import com.pitang.Projeto.service.ServiceContatos;
-//import com.pitang.Projeto.service.ServiceContatos;
 import com.pitang.Projeto.service.ServiceUsuario;
 
 @RequestMapping(value = "/user")
@@ -28,9 +27,11 @@ public class ControllerUsuario {
 		private ServiceUsuario serviceUsuario;
 		private ServiceContatos serviceContatos;
 		
-		public ControllerUsuario(ServiceUsuario serviceUsuario) {
+		public ControllerUsuario(ServiceUsuario serviceUsuario, ServiceContatos serviceContatos) {
 			super();
 			this.serviceUsuario = serviceUsuario;
+			this.serviceContatos = serviceContatos;
+			
 		}
 		
 		@RequestMapping(method = RequestMethod.GET)
@@ -81,12 +82,11 @@ public class ControllerUsuario {
 		@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 		@ResponseBody
 		public ResponseEntity<DtoUsuario> updateUser(@PathVariable("id") Long id, @RequestBody DtoUsuario dtoUsuario) {
-			if (dtoUsuario == null) {
-				return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			if (id == null || dtoUsuario == null) {
+				throw new ExceptionBadRequest("Dados informados são nulos,");
 			}
-			
 			ModelUsuario user = ModelMapperComponent.modelMapper.map(dtoUsuario, new TypeToken<ModelUsuario>() {}.getType());
-			user = serviceUsuario.updateUser(id, user);
+			serviceUsuario.updateUser(user);
 			dtoUsuario = ModelMapperComponent.modelMapper.map(user, new TypeToken<DtoUsuario>() {}.getType());
 			return new ResponseEntity<>(dtoUsuario, HttpStatus.OK);
 		}
@@ -99,18 +99,16 @@ public class ControllerUsuario {
 		
 		@RequestMapping(value = "/{id}/contact", method  =RequestMethod.POST)
 		@ResponseBody
-		public ResponseEntity<DtoContatos> cadastrarContato(@PathVariable("id") Long id, @RequestBody DtoContatos dtoContatos) {
-		//ModelUsuario user = serviceContatos.findUserByContact(id);
+		public ResponseEntity<DtoContatos> addContact(@PathVariable("id") Long id,@RequestBody DtoContatos dtoContatos) {
+		ModelUsuario user = serviceContatos.findUserByContact(id);
 		ModelContatos contact = ModelMapperComponent.modelMapper.map(dtoContatos, new TypeToken<ModelContatos>() {}.getType());
-		ModelMapperComponent.modelMapper.validate();
-		//contact.setUserSender(user);
+		contact.setUserSender(user);
+		serviceContatos.addContact(contact);
+			if(dtoContatos == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		
-		contact = serviceContatos.addContact(contact);
-		if(contact == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		dtoContatos = ModelMapperComponent.modelMapper.map(contact, new TypeToken<DtoContatos>() {}.getType());
-		ModelMapperComponent.modelMapper.validate();	
+		dtoContatos = ModelMapperComponent.modelMapper.map(contact, new TypeToken<DtoContatos>() {}.getType());	
 		return new ResponseEntity<>(dtoContatos, HttpStatus.CREATED);
 		}
 		

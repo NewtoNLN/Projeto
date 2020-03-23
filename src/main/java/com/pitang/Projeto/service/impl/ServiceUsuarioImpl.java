@@ -59,11 +59,24 @@ public class ServiceUsuarioImpl implements ServiceUsuario {
 	
 	
 	@Override
-	public ModelUsuario updateUser(Long id, ModelUsuario user) {
+	public ModelUsuario updateUser(ModelUsuario user) {
+		if (user.getId() == null) {
+			throw new ExceptionBadRequest("Necessário informar ID do usuário.");
+		}
 		checkMandatoryFields(user);
-		validadeUserForUpdate(user);
-		getRelations(user);
 		return repositoryUsuario.save(user);
+		/*
+		userEdit =  idUser.get();
+		//userChange.setCompleteName(userChange.getCompleteName());
+		//repositoryUsuario.save(userChange);
+		//return userChange;
+		
+		checkMandatoryFields(userEdit);
+		validadeUserForUpdate(userEdit);
+		getRelations(userEdit);
+		
+		return repositoryUsuario.save(userEdit);
+		*/
 	}
 	
 	@Override
@@ -72,6 +85,7 @@ public class ServiceUsuarioImpl implements ServiceUsuario {
 		if(user == null) {
 			throw new ExceptionBadRequest("Id inválido, não foi possivel excluir o usuario.");
 		}
+		repositoryUsuario.deleteById(id);
 	}
 	
 	private void checkMandatoryFields(ModelUsuario user) {

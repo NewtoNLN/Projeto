@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.pitang.Projeto.Exceptions.ExceptionBadRequest;
-import com.pitang.Projeto.Model.ModelContatos;
 import com.pitang.Projeto.Model.ModelMensagem;
 import com.pitang.Projeto.repository.RepositoryMensagem;
 import com.pitang.Projeto.service.ServiceMensagem;
 
+@Service
 public class ServiceMensagemImpl implements ServiceMensagem {
 	
 	@Autowired 

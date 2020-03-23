@@ -42,16 +42,16 @@ public class ModelUsuario {
 	@NotNull
 	@Size(max = 100)
 	private String password;
-	/*
+	
 	@OneToMany(fetch = FetchType.LAZY ,
 				cascade = CascadeType.ALL,
-				mappedBy = "ModelUsuario")
-	private List<ModelContatos> contacts;
-	*/
-	/*
+				mappedBy = "userSender")
+	private List<ModelContatos> contact;
+	
+	
 	@OneToMany
 	private List<ModelMensagem> messages;
-	*/
+	
 	
 	
 	public ModelUsuario() {

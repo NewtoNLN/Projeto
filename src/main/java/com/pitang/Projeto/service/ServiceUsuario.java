@@ -12,7 +12,7 @@ public interface ServiceUsuario {
 	
 	public ModelUsuario addUser(ModelUsuario user);
 	
-	public ModelUsuario updateUser(Long id, ModelUsuario user);
+	public ModelUsuario updateUser(ModelUsuario user);
 	
 	public void deleteUser(Long id);
 	
