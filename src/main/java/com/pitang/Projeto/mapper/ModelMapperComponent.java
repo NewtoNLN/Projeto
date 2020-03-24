@@ -84,12 +84,8 @@ public class ModelMapperComponent {
 				@Override
 				protected void configure() {
 					map().setMessage(source.getMessage());
-					map().getUserSender().setId(source.getUserSender());
-					map().setUserReciever(source.getUserReciever());
-					skip().getUserSender().setCompleteName(null);
-					skip().getUserSender().setEmail(null);
-					skip().getUserSender().setPassword(null);
-					skip().getUserSender().setUserName(null);
+					skip().setIdSender(null);
+					map().setIdReciever(source.getIdReciever());
 					
 				}
 	});
@@ -100,8 +96,8 @@ public class ModelMapperComponent {
 				protected void configure() {
 					map().setId(source.getId());
 					map().setMessage(source.getMessage());
-					map().setUserSender(source.getUserSender().getId());
-					map().setUserReciever(source.getUserReciever());
+					map().setIdSender(source.getIdSender().getId());
+					map().setIdReciever(source.getIdReciever());
 				}
 			}
 			);

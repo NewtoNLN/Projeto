@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.pitang.Projeto.Exceptions.ExceptionBadRequest;
 import com.pitang.Projeto.Model.ModelMensagem;
+import com.pitang.Projeto.Model.ModelUsuario;
+import com.pitang.Projeto.dto.DtoMensagem;
 import com.pitang.Projeto.repository.RepositoryMensagem;
+import com.pitang.Projeto.repository.RepositoryUsuario;
 import com.pitang.Projeto.service.ServiceMensagem;
 
 @Service
@@ -19,22 +22,31 @@ public class ServiceMensagemImpl implements ServiceMensagem {
 	private RepositoryMensagem repositoryMensagem;
 	
 	@Autowired
-	private ServiceContatosImpl serviceContatosImpl;
+	private RepositoryUsuario repositoryUsuario;
 
 	@Override
 	public List<ModelMensagem> listAllMessage() {
-		if(repositoryMensagem.findAll().size()==0) {
-			return null;
-		}
 		return repositoryMensagem.findAll();
+	}
+	@Override
+	public ModelUsuario findUserByMessage(Long id) {
+		Optional<ModelUsuario> user = repositoryUsuario.findById(id);
+		return user.get();
 	}
 
 	
 
 	@Override
-	public List<ModelMensagem> findallMessageContact(Long idSender, Long idReciever) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<DtoMensagem> findallMessageContact(Long idSender, Long idReciever) {
+		
+		ModelUsuario validadeSender = repositoryUsuario.findById(idSender).get();
+		ModelUsuario validadeReciever = repositoryUsuario.findById(idReciever).get();
+		if (validadeSender == null || validadeReciever == null) {
+			throw new ExceptionBadRequest("Usuário não encontrado");
+		}
+		
+		return repositoryMensagem.findByIdSenderAndIdReciever(idSender, idReciever);
+	
 	}
 
 	@Override
@@ -54,10 +66,7 @@ public class ServiceMensagemImpl implements ServiceMensagem {
 			throw new ExceptionBadRequest("Id inválido");
 		}
 		
-		Optional<ModelMensagem> message = repositoryMensagem.findById(id);
-		if (message == null) {
-			throw new ExceptionBadRequest("Mensagem não encontrada");
-		}
+		repositoryMensagem.deleteById(id);
 	}
 	
 	@Override

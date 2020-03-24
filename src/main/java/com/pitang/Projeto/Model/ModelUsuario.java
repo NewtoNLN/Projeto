@@ -49,7 +49,9 @@ public class ModelUsuario {
 	private List<ModelContatos> contact;
 	
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY , 
+				cascade = CascadeType.ALL,
+				mappedBy = "idSender")
 	private List<ModelMensagem> messages;
 	
 	

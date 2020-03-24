@@ -1,7 +1,5 @@
 package com.pitang.Projeto.Model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,10 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "message")
@@ -27,14 +27,15 @@ public class ModelMensagem {
 	@Column(name = "message")
 	private String message;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_sender", nullable = false)
-	private ModelUsuario userSender;
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "id_sender", nullable = false)
+	private ModelUsuario idSender;
 	
-	@NotNull 
-	@Column(name = "userReciever")
-	private Long userReciever;
-	
+	@NotNull
+	@Column(name = "id_reciever")
+	private Long idReciever;
+		
 
 	public Long getId() {
 		return id;
@@ -52,21 +53,25 @@ public class ModelMensagem {
 		this.message = message;
 	}
 
-	public ModelUsuario getUserSender() {
-		return userSender;
+	public ModelUsuario getIdSender() {
+		return idSender;
 	}
 
-	public void setUserSender(ModelUsuario userSender) {
-		this.userSender = userSender;
+	public void setIdSender(ModelUsuario idSender) {
+		this.idSender = idSender;
 	}
 
-	public Long getUserReciever() {
-		return userReciever;
+	public Long getIdReciever() {
+		return idReciever;
 	}
 
-	public void setUserReciever(Long userReciever) {
-		this.userReciever = userReciever;
+	public void setIdReciever(Long idReciever) {
+		this.idReciever = idReciever;
 	}
+
+	
+	
+	
 	
 
 	

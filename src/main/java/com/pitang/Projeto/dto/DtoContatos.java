@@ -1,7 +1,6 @@
 package com.pitang.Projeto.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pitang.Projeto.Model.ModelUsuario;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DtoContatos {

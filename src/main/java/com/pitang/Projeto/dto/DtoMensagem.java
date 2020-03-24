@@ -1,7 +1,5 @@
 package com.pitang.Projeto.dto;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -9,8 +7,8 @@ public class DtoMensagem {
 	
 	private Long id;
 	private String message;
-	private Long userSender;
-	private Long userReciever;
+	private Long idSender;
+	private Long idReciever;
 	
 	
 	public Long getId() {
@@ -25,17 +23,17 @@ public class DtoMensagem {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public Long getUserSender() {
-		return userSender;
+	public Long getIdSender() {
+		return idSender;
 	}
-	public void setUserSender(Long userSender) {
-		this.userSender = userSender;
+	public void setIdSender(Long idSender) {
+		this.idSender = idSender;
 	}
-	public Long getUserReciever() {
-		return userReciever;
+	public Long getIdReciever() {
+		return idReciever;
 	}
-	public void setUserReciever(Long userReciever) {
-		this.userReciever = userReciever;
+	public void setIdReciever(Long idReciever) {
+		this.idReciever = idReciever;
 	}
 	
 	
